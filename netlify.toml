@@ -1,0 +1,32 @@
+# Netlify deploy config.
+#
+# This app is server-rendered by TanStack Start on Nitro, not a static SPA.
+# With NITRO_PRESET=netlify, Nitro emits:
+#   dist/                          static client assets  -> publish
+#   .netlify/functions-internal/   the SSR handler       -> picked up automatically
+#
+# Settings here are meant to override the Netlify UI, so the build is
+# reproducible from the repo. In practice this site's dashboard build settings
+# (publish "dist/client", command "bun run build") kept winning over this file
+# in actual deploy logs, and that UI isn't reachable from a coding session to
+# correct directly. So belt-and-suspenders: `npm run build` (scripts/
+# postbuild-netlify-compat.mjs) now also mirrors dist/ into dist/client/,
+# so the deploy succeeds under EITHER publish path, whichever config wins.
+#
+# If you have dashboard access: Site configuration -> Build & deploy ->
+# Build settings, and clear the custom publish path / build command there so
+# this file is unambiguously in control (and scripts/postbuild-netlify-compat.mjs
+# can be removed).
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NITRO_PRESET = "netlify"
+  NODE_VERSION = "20"
+  # Supabase project "Quantum" — publishable key, safe to expose in a client
+  # bundle. It can only INSERT into the two registration tables (see
+  # supabase migration "create_registration_tables"); it has no read access.
+  VITE_SUPABASE_URL = "https://lamqnrxspkmzfllnvgks.supabase.co"
+  VITE_SUPABASE_PUBLISHABLE_KEY = "sb_publishable_84JWeEfGbBdgNNedJEHBkQ_5lphxfX1"

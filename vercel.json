@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "build": {
+    "env": {
+      "VITE_SUPABASE_URL": "https://lamqnrxspkmzfllnvgks.supabase.co",
+      "VITE_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_84JWeEfGbBdgNNedJEHBkQ_5lphxfX1"
+    }
+  }
+}
